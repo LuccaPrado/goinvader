@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
-
+"fmt"
 	"image"
 	"image/color"
 	_ "image/png"
@@ -12,20 +12,17 @@ import (
 
 var gosavior float64 = 0
 var gosaviorold float64 = 0
-var gosaviorold2 float64 = 0
-var gosaviorold3 float64 = 0
 var pydestroyer float64 = 5
 var varia bool = false
 var variadoi bool = false
 var variatre bool = false
 var altura float64 = 185
-var alturadois float64 = 185
-var alturatres float64 = 185
 var py1 bool = true
 var py2 bool = true
 var py3 bool = true
 var py4 bool = true
-
+var tiro int = 0
+var pytura float64 = 0
 func jogo(screen *ebiten.Image) error {
 
 	reader, err := os.Open("assets/standing.png")
@@ -40,8 +37,8 @@ func jogo(screen *ebiten.Image) error {
 	jogador, _ := ebiten.NewImageFromImage(m, ebiten.FilterNearest)
 	readerpython, err := os.Open("assets/python.png")
 	if err != nil {
-		//log.Fatal(err)
-	}
+//n tratando erro pq n é para dar erro
+		}
 
 	defer readerpython.Close()
 
@@ -57,23 +54,21 @@ func jogo(screen *ebiten.Image) error {
 	jogadorops := &ebiten.DrawImageOptions{}
 
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-
 		gosavior++
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-
 		gosavior--
 	}
 	jogadorops.GeoM.Translate(gosavior, 185)
 	screen.DrawImage(jogador, jogadorops)
-	if altura <= 53 && gosaviorold <= 53 || alturadois <= 53 && gosaviorold <= 53 || alturatres <= 53 && gosaviorold <= 53 {
+	if altura <= 53 && gosaviorold <= 53  {
 		py1 = false
-	} else if altura <= 53 && gosaviorold <= 53 || alturadois <= 53 && gosaviorold >= 53 && gosaviorold <= 106 || alturatres <= 53 && gosaviorold >= 53 && gosaviorold <= 106 {
+	} else if altura <= pytura && gosaviorold < 106 && gosaviorold > 53{
 		py2 = false
-	} else if altura <= 53 && gosaviorold <= 53 || alturadois <= 53 && gosaviorold >= 53 && gosaviorold <= 106 || alturatres <= 53 && gosaviorold >= 106 && gosaviorold <= 159 {
+	} else if altura <= pytura && gosaviorold > 106 && gosaviorold < 159 {
 		py3 = false
-	} else if (gosaviorold >= 159 || gosaviorold >= 159 || gosaviorold3 >= 159) && altura <= 53 || (gosaviorold >= 159 || gosaviorold >= 159 || gosaviorold3 >= 159) && alturadois <= 53 || (gosaviorold >= 159 || gosaviorold >= 159 || gosaviorold3 >= 159) && alturatres <= 53 {
+	} else if gosaviorold >= 159 && altura <= pytura {
 		py4 = false
 	} else {
 
@@ -81,9 +76,9 @@ func jogo(screen *ebiten.Image) error {
 		pyops2 := &ebiten.DrawImageOptions{}
 		pyops3 := &ebiten.DrawImageOptions{}
 		pyops4 := &ebiten.DrawImageOptions{}
-		pyops2.GeoM.Translate(pydestroyer+53, 0)
-		pyops3.GeoM.Translate(pydestroyer+106, 0)
-		pyops4.GeoM.Translate(pydestroyer+159, 0)
+		pyops2.GeoM.Translate(pydestroyer+53, pytura)
+		pyops3.GeoM.Translate(pydestroyer+106, pytura)
+		pyops4.GeoM.Translate(pydestroyer+159, pytura)
 		if py1 == true {
 			screen.DrawImage(pyinvader, pyops)
 		}
@@ -98,59 +93,51 @@ func jogo(screen *ebiten.Image) error {
 		}
 	}
 	quaopts := &ebiten.DrawImageOptions{}
-	quaoptsdois := &ebiten.DrawImageOptions{}
-	quaoptstres := &ebiten.DrawImageOptions{}
+
 	quaopts.GeoM.Translate(gosaviorold, altura)
-	quaoptsdois.GeoM.Translate(gosaviorold2, alturadois)
-	quaoptstres.GeoM.Translate(gosaviorold3, alturatres)
+
 	if varia == true {
 		screen.DrawImage(quadrado, quaopts)
 		altura = altura - 5
 	}
-	if variadoi == true {
 
-		screen.DrawImage(quadrado, quaoptsdois)
-		alturadois = alturadois - 5
-	}
-	if variatre == true {
-
-		screen.DrawImage(quadrado, quaoptstres)
-		alturatres = alturatres - 5
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == false && variadoi == false && variatre == false {
+	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == false {
 		gosaviorold = gosavior + 35
 		varia = true
-
+		tiro++
+		fmt.Println("1")
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == true && variadoi == false && variatre == false {
-		gosaviorold2 = gosavior + 35
-		alturadois = 185
-		variadoi = true
 
-	}
-	if ebiten.IsKeyPressed(ebiten.KeyUp) && variadoi == true && varia == true {
-		gosaviorold3 = gosavior + 35
-		alturatres = 185
-		variatre = true
 
-	}
 
 	if altura == 0 {
 		altura = 185
 		varia = false
 	}
-	if alturadois == 0 {
-		alturadois = 185
-		variadoi = false
+
+	if tiro >= 3 && tiro <= 5 {
+pytura=10
 	}
-	if alturatres == 0 {
-		alturatres = 185
-		variatre = false
+	if tiro >= 6 && tiro <= 8 {
+pytura=15
 	}
+	if tiro >= 9 && tiro <= 13 {
+pytura=30
+	}
+	if tiro >= 13 && tiro <= 15 {
+pytura=45
+	}
+	if tiro >= 16 && tiro <= 20 {
+pytura=55
+	}
+	if tiro > 20  {
+pytura=185
+ebitenutil.DebugPrint(screen, "vc perdeu")
+	}else{
 
 	if py1 == false && py2 == false && py3 == false && py4 == false {
 		ebitenutil.DebugPrint(screen, "vc ganhou")
-	}
+	}}
 	return nil
 }
 
