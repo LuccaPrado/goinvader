@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
-"fmt"
+
 	"image"
 	"image/color"
 	_ "image/png"
@@ -23,6 +23,7 @@ var py3 bool = true
 var py4 bool = true
 var tiro int = 0
 var pytura float64 = 0
+
 func jogo(screen *ebiten.Image) error {
 
 	reader, err := os.Open("assets/standing.png")
@@ -37,8 +38,8 @@ func jogo(screen *ebiten.Image) error {
 	jogador, _ := ebiten.NewImageFromImage(m, ebiten.FilterNearest)
 	readerpython, err := os.Open("assets/python.png")
 	if err != nil {
-//n tratando erro pq n é para dar erro
-		}
+		//n tratando erro pq n é para dar erro
+	}
 
 	defer readerpython.Close()
 
@@ -62,9 +63,9 @@ func jogo(screen *ebiten.Image) error {
 	}
 	jogadorops.GeoM.Translate(gosavior, 185)
 	screen.DrawImage(jogador, jogadorops)
-	if altura <= 53 && gosaviorold <= 53  {
+	if altura <= 53 && gosaviorold <= 53 {
 		py1 = false
-	} else if altura <= pytura && gosaviorold < 106 && gosaviorold > 53{
+	} else if altura <= pytura && gosaviorold < 106 && gosaviorold > 53 {
 		py2 = false
 	} else if altura <= pytura && gosaviorold > 106 && gosaviorold < 159 {
 		py3 = false
@@ -105,10 +106,8 @@ func jogo(screen *ebiten.Image) error {
 		gosaviorold = gosavior + 35
 		varia = true
 		tiro++
-		fmt.Println("1")
+
 	}
-
-
 
 	if altura == 0 {
 		altura = 185
@@ -116,28 +115,29 @@ func jogo(screen *ebiten.Image) error {
 	}
 
 	if tiro >= 3 && tiro <= 5 {
-pytura=10
+		pytura = 10
 	}
 	if tiro >= 6 && tiro <= 8 {
-pytura=15
+		pytura = 15
 	}
 	if tiro >= 9 && tiro <= 13 {
-pytura=30
+		pytura = 30
 	}
 	if tiro >= 13 && tiro <= 15 {
-pytura=45
+		pytura = 45
 	}
 	if tiro >= 16 && tiro <= 20 {
-pytura=55
+		pytura = 55
 	}
-	if tiro > 20  {
-pytura=185
-ebitenutil.DebugPrint(screen, "vc perdeu")
-	}else{
+	if tiro > 20 {
+		pytura = 185
+		ebitenutil.DebugPrint(screen, "vc perdeu")
+	} else {
 
-	if py1 == false && py2 == false && py3 == false && py4 == false {
-		ebitenutil.DebugPrint(screen, "vc ganhou")
-	}}
+		if py1 == false && py2 == false && py3 == false && py4 == false {
+			ebitenutil.DebugPrint(screen, "vc ganhou")
+		}
+	}
 	return nil
 }
 
