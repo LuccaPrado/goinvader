@@ -55,11 +55,11 @@ func jogo(screen *ebiten.Image) error {
 	jogadorops := &ebiten.DrawImageOptions{}
 
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		gosavior++
+		gosavior = gosavior + 3
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		gosavior--
+		gosavior = gosavior - 3
 	}
 	jogadorops.GeoM.Translate(gosavior, 185)
 	screen.DrawImage(jogador, jogadorops)
