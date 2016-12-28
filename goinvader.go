@@ -18,14 +18,14 @@ var (
 	pyimage2 		float64 = 54 //add 1 px de espaço a cada imagem
 	pyimage3 		float64 = 107
 	pyimage4 		float64 = 160
+	pyimage5 		float64 = 213
 	varia       bool    = false
-	variadoi    bool    = false
-	variatre    bool    = false
 	altura      float64 = 185
 	py1         bool    = true
 	py2         bool    = true
 	py3         bool    = true
 	py4         bool    = true
+	py5         bool    = true
 	tiro        int     = 0
 	pytura      float64 = 0
 )
@@ -75,17 +75,21 @@ func jogo(screen *ebiten.Image) error {
 		py2 = false
 	} else if altura <= pytura && gosaviorold > pyimage3 && gosaviorold < pyimage4 {
 		py3 = false
-	} else if gosaviorold >= pyimage4 && altura <= pytura {
+	} else if gosaviorold >= pyimage4 && altura <= pytura && gosaviorold < pyimage5{
 		py4 = false
+	} else if gosaviorold >= pyimage5 && altura <= pytura {
+		py5 = false
 	} else {
 //configura e desenha os pys
 		pyops.GeoM.Translate(pydestroyer, 0)
 		pyops2 := &ebiten.DrawImageOptions{}
 		pyops3 := &ebiten.DrawImageOptions{}
 		pyops4 := &ebiten.DrawImageOptions{}
+		pyops5 := &ebiten.DrawImageOptions{}
 		pyops2.GeoM.Translate(pyimage2, pytura)
 		pyops3.GeoM.Translate(pyimage3, pytura)
 		pyops4.GeoM.Translate(pyimage4, pytura)
+		pyops5.GeoM.Translate(pyimage5, pytura)
 		if py1 == true {
 			screen.DrawImage(pyinvader, pyops)
 		}
@@ -98,11 +102,14 @@ func jogo(screen *ebiten.Image) error {
 		if py4 == true {
 			screen.DrawImage(pyinvader, pyops4)
 		}
+		if py5 == true {
+			screen.DrawImage(pyinvader, pyops5)
+		}
 	}
 	quaopts := &ebiten.DrawImageOptions{}
 
 	quaopts.GeoM.Translate(gosaviorold, altura)
-
+//define que atirou
 	if varia == true {
 		screen.DrawImage(quadrado, quaopts)
 		altura = altura - 5
@@ -137,7 +144,7 @@ func jogo(screen *ebiten.Image) error {
 		ebitenutil.DebugPrint(screen, "vc perdeu")
 	} else {
 		//checa se todos os pythons tão vivos
-		if py1 == false && py2 == false && py3 == false && py4 == false {
+		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false{
 			ebitenutil.DebugPrint(screen, "vc ganhou")
 		}
 	}
