@@ -133,6 +133,13 @@ func jogo(screen *ebiten.Image) error {
 	if tiro > 20 {
 		pytura = 185
 		ebitenutil.DebugPrint(screen, "vc perdeu e usou so " + contatiro + " tiros ")
+		ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
+		if ebiten.IsKeyPressed(ebiten.KeyS) == true {
+			os.Exit(0)
+		}
+		if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
+			reiniciar()
+		}
 	} else {
 		//arrumando por pura vontade
 		if tiro >= 3 && tiro <= 5 {
