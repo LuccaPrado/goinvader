@@ -1,4 +1,5 @@
 package main
+
 //imports necessários
 import (
 	"github.com/hajimehoshi/ebiten"
@@ -9,16 +10,17 @@ import (
 	_ "image/png"
 	"os"
 )
+
 //declarando variaveis
 var (
 	Gosavior    float64 = 0
 	gosaviorold float64 = 0
 	pydestroyer float64 = 0
-	pyimage1 		float64 = 0
-	pyimage2 		float64 = 54 //add 1 px de espaço a cada imagem
-	pyimage3 		float64 = 107
-	pyimage4 		float64 = 160
-	pyimage5 		float64 = 213
+	pyimage1    float64 = 0
+	pyimage2    float64 = 54 //add 1 px de espaço a cada imagem
+	pyimage3    float64 = 107
+	pyimage4    float64 = 160
+	pyimage5    float64 = 213
 	varia       bool    = false
 	altura      float64 = 185
 	py1         bool    = true
@@ -29,6 +31,7 @@ var (
 	tiro        int     = 0
 	pytura      float64 = 0
 )
+
 //Loop principal
 func jogo(screen *ebiten.Image) error {
 
@@ -75,12 +78,12 @@ func jogo(screen *ebiten.Image) error {
 		py2 = false
 	} else if altura <= pytura && gosaviorold > pyimage3 && gosaviorold < pyimage4 {
 		py3 = false
-	} else if gosaviorold >= pyimage4 && altura <= pytura && gosaviorold < pyimage5{
+	} else if gosaviorold >= pyimage4 && altura <= pytura && gosaviorold < pyimage5 {
 		py4 = false
 	} else if gosaviorold >= pyimage5 && altura <= pytura {
 		py5 = false
 	} else {
-//configura e desenha os pys
+		//configura e desenha os pys
 		pyops.GeoM.Translate(pydestroyer, 0)
 		pyops2 := &ebiten.DrawImageOptions{}
 		pyops3 := &ebiten.DrawImageOptions{}
@@ -109,16 +112,16 @@ func jogo(screen *ebiten.Image) error {
 	quaopts := &ebiten.DrawImageOptions{}
 
 	quaopts.GeoM.Translate(gosaviorold, altura)
-//define que atirou
+	//define que atirou
 	if varia == true {
 		screen.DrawImage(quadrado, quaopts)
 		altura = altura - 5
 	}
-//atirar
+	//atirar
 	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == false {
 		atirar()
 	}
-//aonde o tiro está
+	//aonde o tiro está
 	if altura == 0 {
 		altura = 185
 		varia = false
@@ -144,31 +147,34 @@ func jogo(screen *ebiten.Image) error {
 		ebitenutil.DebugPrint(screen, "vc perdeu")
 	} else {
 		//checa se todos os pythons tão vivos
-		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false{
+		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
 			ebitenutil.DebugPrint(screen, "vc ganhou")
 		}
 	}
 	return nil
 }
-func atirar()  {
+func atirar() {
 	gosaviorold = Gosavior + 35
 	varia = true
 	tiro++
 }
+
 //andar para direita
 func walkRight() {
-	if Gosavior < 260{
+	if Gosavior < 260 {
 		Gosavior += 3
 	}
 
 }
+
 //andar para esquerda
 func walkLeft() {
 	if Gosavior > 0 {
-	Gosavior -= 3
+		Gosavior -= 3
 	}
 
 }
+
 //Inicia o jogo
 func main() {
 
