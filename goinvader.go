@@ -154,6 +154,13 @@ func jogo(screen *ebiten.Image) error {
 		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
 
 			ebitenutil.DebugPrint(screen, "vc ganhou e usou so " + contatiro + " tiros ")
+			ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
+			if ebiten.IsKeyPressed(ebiten.KeyS) == true {
+				os.Exit(0)
+			}
+			if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
+				reiniciar()
+			}
 		}
 	}
 	return nil
@@ -163,7 +170,27 @@ func atirar() {
 	varia = true
 	tiro++
 }
-
+func reiniciar()  {
+//função de reiniciar
+	Gosavior     = 0
+	gosaviorold  = 0
+	pydestroyer  = 0
+	pyimage1     = 0
+	pyimage2     = 54
+	pyimage3     = 107
+	pyimage4     = 160
+	pyimage5     = 213
+	varia        = false
+	altura       = 185
+	py1          = true
+	py2          = true
+	py3          = true
+	py4          = true
+	py5          = true
+	tiro         = 0
+	contatiro    = "0"
+	pytura       = 0
+}
 //andar para direita
 func walkRight() {
 	if Gosavior < 260 {
