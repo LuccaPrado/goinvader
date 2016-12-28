@@ -1,5 +1,5 @@
 package main
-
+//imports necessários
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
@@ -9,7 +9,7 @@ import (
 	_ "image/png"
 	"os"
 )
-
+//declarando variaveis
 var (
 	Gosavior    float64 = 0
 	gosaviorold float64 = 0
@@ -29,7 +29,7 @@ var (
 	tiro        int     = 0
 	pytura      float64 = 0
 )
-
+//Loop principal
 func jogo(screen *ebiten.Image) error {
 
 	reader, err := os.Open("assets/standing.png")
@@ -78,7 +78,7 @@ func jogo(screen *ebiten.Image) error {
 	} else if gosaviorold >= pyimage4 && altura <= pytura {
 		py4 = false
 	} else {
-
+//configura e desenha os pys
 		pyops.GeoM.Translate(pydestroyer, 0)
 		pyops2 := &ebiten.DrawImageOptions{}
 		pyops3 := &ebiten.DrawImageOptions{}
@@ -107,19 +107,15 @@ func jogo(screen *ebiten.Image) error {
 		screen.DrawImage(quadrado, quaopts)
 		altura = altura - 5
 	}
-
+//atirar
 	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == false {
-		gosaviorold = Gosavior + 35
-		varia = true
-		tiro++
-
+		atirar()
 	}
-
+//aonde o tiro está
 	if altura == 0 {
 		altura = 185
 		varia = false
 	}
-
 	if tiro >= 3 && tiro <= 5 {
 		pytura = 10
 	}
@@ -135,32 +131,34 @@ func jogo(screen *ebiten.Image) error {
 	if tiro >= 16 && tiro <= 20 {
 		pytura = 55
 	}
+	//checa se vc ja atirou mais que podia, se sim, vc perdeu
 	if tiro > 20 {
 		pytura = 185
 		ebitenutil.DebugPrint(screen, "vc perdeu")
 	} else {
-
+		//checa se todos os pythons tão vivos
 		if py1 == false && py2 == false && py3 == false && py4 == false {
 			ebitenutil.DebugPrint(screen, "vc ganhou")
 		}
 	}
 	return nil
 }
-
+func atirar()  {
+	gosaviorold = Gosavior + 35
+	varia = true
+	tiro++
+}
+//andar para direita
 func walkRight() {
 	Gosavior += 3
 }
-
+//andar para esquerda
 func walkLeft() {
 	Gosavior -= 3
 }
+//Inicia o jogo
 func main() {
 
-	//m, _, err := image.Decode(reader)
-
-	//if err != nil {
-
-	//}
 	ebiten.Run(jogo, 320, 240, 2, "Go Invader")
-	ebiten.IsRunningSlowly()
+	ebiten.IsRunningSlowly() //checa se o jogo esta rodando lento  https://godoc.org/github.com/hajimehoshi/ebiten#IsRunningSlowly
 }
