@@ -10,19 +10,21 @@ import (
 	"os"
 )
 
-var gosavior float64 = 0
-var gosaviorold float64 = 0
-var pydestroyer float64 = 5
-var varia bool = false
-var variadoi bool = false
-var variatre bool = false
-var altura float64 = 185
-var py1 bool = true
-var py2 bool = true
-var py3 bool = true
-var py4 bool = true
-var tiro int = 0
-var pytura float64 = 0
+var (
+	Gosavior    float64 = 0
+	gosaviorold float64 = 0
+	pydestroyer float64 = 5
+	varia       bool    = false
+	variadoi    bool    = false
+	variatre    bool    = false
+	altura      float64 = 185
+	py1         bool    = true
+	py2         bool    = true
+	py3         bool    = true
+	py4         bool    = true
+	tiro        int     = 0
+	pytura      float64 = 0
+)
 
 func jogo(screen *ebiten.Image) error {
 
@@ -47,7 +49,7 @@ func jogo(screen *ebiten.Image) error {
 	p, _, err := image.Decode(readerpython)
 	pyinvader, _ := ebiten.NewImageFromImage(p, ebiten.FilterNearest)
 	//ebitenutil.DebugPrint(screen, "ta funfando :3")
-	quadrado, _ := ebiten.NewImage(5, 5, ebiten.FilterNearest)
+	quadrado, _ := ebiten.NewImage(5, 15, ebiten.FilterNearest)
 
 	quadrado.Fill(color.White)
 
@@ -55,15 +57,15 @@ func jogo(screen *ebiten.Image) error {
 	jogadorops := &ebiten.DrawImageOptions{}
 
 	if ebiten.IsKeyPressed(ebiten.KeyRight) {
-		gosavior = gosavior + 3
+		walkRight()
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-		gosavior = gosavior - 3
+		walkLeft()
 	}
-	jogadorops.GeoM.Translate(gosavior, 185)
+	jogadorops.GeoM.Translate(Gosavior, 185)
 	screen.DrawImage(jogador, jogadorops)
-	if altura <= 53 && gosaviorold <= 53 {
+	if altura <= 54 && gosaviorold <= 53 {
 		py1 = false
 	} else if altura <= pytura && gosaviorold < 106 && gosaviorold > 53 {
 		py2 = false
@@ -103,7 +105,7 @@ func jogo(screen *ebiten.Image) error {
 	}
 
 	if ebiten.IsKeyPressed(ebiten.KeyUp) && varia == false {
-		gosaviorold = gosavior + 35
+		gosaviorold = Gosavior + 35
 		varia = true
 		tiro++
 
@@ -141,6 +143,13 @@ func jogo(screen *ebiten.Image) error {
 	return nil
 }
 
+func walkRight() {
+	Gosavior += 3
+}
+
+func walkLeft() {
+	Gosavior -= 3
+}
 func main() {
 
 	//m, _, err := image.Decode(reader)
