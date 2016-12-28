@@ -13,7 +13,11 @@ import (
 var (
 	Gosavior    float64 = 0
 	gosaviorold float64 = 0
-	pydestroyer float64 = 5
+	pydestroyer float64 = 0
+	pyimage1 		float64 = 0
+	pyimage2 		float64 = 54 //add 1 px de espaço a cada imagem
+	pyimage3 		float64 = 107
+	pyimage4 		float64 = 160
 	varia       bool    = false
 	variadoi    bool    = false
 	variatre    bool    = false
@@ -48,7 +52,7 @@ func jogo(screen *ebiten.Image) error {
 	screen.Fill(color.Black)
 	p, _, err := image.Decode(readerpython)
 	pyinvader, _ := ebiten.NewImageFromImage(p, ebiten.FilterNearest)
-	//ebitenutil.DebugPrint(screen, "ta funfando :3")
+
 	quadrado, _ := ebiten.NewImage(5, 15, ebiten.FilterNearest)
 
 	quadrado.Fill(color.White)
@@ -65,13 +69,13 @@ func jogo(screen *ebiten.Image) error {
 	}
 	jogadorops.GeoM.Translate(Gosavior, 185)
 	screen.DrawImage(jogador, jogadorops)
-	if altura <= 54 && gosaviorold <= 53 {
+	if altura <= 54 && gosaviorold <= pyimage2 {
 		py1 = false
-	} else if altura <= pytura && gosaviorold < 106 && gosaviorold > 53 {
+	} else if altura <= pytura && gosaviorold < pyimage3 && gosaviorold > pyimage2 {
 		py2 = false
-	} else if altura <= pytura && gosaviorold > 106 && gosaviorold < 159 {
+	} else if altura <= pytura && gosaviorold > pyimage3 && gosaviorold < pyimage4 {
 		py3 = false
-	} else if gosaviorold >= 159 && altura <= pytura {
+	} else if gosaviorold >= pyimage4 && altura <= pytura {
 		py4 = false
 	} else {
 
@@ -79,9 +83,9 @@ func jogo(screen *ebiten.Image) error {
 		pyops2 := &ebiten.DrawImageOptions{}
 		pyops3 := &ebiten.DrawImageOptions{}
 		pyops4 := &ebiten.DrawImageOptions{}
-		pyops2.GeoM.Translate(pydestroyer+53, pytura)
-		pyops3.GeoM.Translate(pydestroyer+106, pytura)
-		pyops4.GeoM.Translate(pydestroyer+159, pytura)
+		pyops2.GeoM.Translate(pyimage2, pytura)
+		pyops3.GeoM.Translate(pyimage3, pytura)
+		pyops4.GeoM.Translate(pyimage4, pytura)
 		if py1 == true {
 			screen.DrawImage(pyinvader, pyops)
 		}
