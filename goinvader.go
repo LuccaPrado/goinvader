@@ -4,11 +4,11 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
-	"strconv"
 	"image"
 	"image/color"
 	_ "image/png"
 	"os"
+	"strconv"
 )
 
 //declarando variaveis
@@ -29,8 +29,9 @@ var (
 	py4         bool    = true
 	py5         bool    = true
 	tiro        int     = 0
-	contatiro   string 		= "0" //só p seguir padrão
+	contatiro   string  = "0" //só p seguir padrão
 	pytura      float64 = 0
+	nivel       int     = 1
 )
 
 //Loop principal
@@ -130,43 +131,71 @@ func jogo(screen *ebiten.Image) error {
 	//começo de pontuação?
 	contatiro = strconv.Itoa(tiro)
 	//checa se vc ja atirou mais que podia, se sim, vc perdeu
-	if tiro > 20 {
-		pytura = 185
-		ebitenutil.DebugPrint(screen, "vc perdeu e usou so " + contatiro + " tiros ")
-		ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
-		if ebiten.IsKeyPressed(ebiten.KeyS) == true {
-			os.Exit(0)
-		}
-		if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
-			reiniciar()
-		}
-	} else {
-		//arrumando por pura vontade
-		if tiro >= 3 && tiro <= 5 {
-			pytura = 10
-		}
-		if tiro >= 6 && tiro <= 8 {
-			pytura = 15
-		}
-		if tiro >= 9 && tiro <= 13 {
-			pytura = 30
-		}
-		if tiro >= 13 && tiro <= 15 {
-			pytura = 45
-		}
-		if tiro >= 16 && tiro <= 20 {
-			pytura = 55
-		}
-		//checa se todos os pythons tão vivos
-		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
-
-			ebitenutil.DebugPrint(screen, "vc ganhou e usou so " + contatiro + " tiros ")
+	//checa nivel
+	if nivel == 1 {
+		if tiro > 8 {
+			pytura = 185
+			ebitenutil.DebugPrint(screen, "vc perdeu e usou so "+contatiro+" tiros ")
 			ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
 			if ebiten.IsKeyPressed(ebiten.KeyS) == true {
 				os.Exit(0)
 			}
 			if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
 				reiniciar()
+			}
+		} else {
+			//arrumando por pura vontade
+			if tiro >= 3 && tiro <= 5 {
+				pytura += 1
+			}
+			if tiro >= 6 && tiro <= 8 {
+				pytura += 1
+			}
+
+			//checa se todos os pythons tão vivos
+			if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
+
+				ebitenutil.DebugPrint(screen, "vc ganhou e usou so "+contatiro+" tiros ")
+				ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para nivel 2 ou s para sair!")
+				if ebiten.IsKeyPressed(ebiten.KeyS) == true {
+					os.Exit(0)
+				}
+				if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
+					nivel = 2
+					reiniciar()
+				}
+			}
+		}
+	} else if nivel == 2 {
+		if tiro > 8 {
+			pytura = 185
+			ebitenutil.DebugPrint(screen, "vc perdeu e usou so "+contatiro+" tiros ")
+			ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
+			if ebiten.IsKeyPressed(ebiten.KeyS) == true {
+				os.Exit(0)
+			}
+			if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
+				reiniciar()
+			}
+		} else {
+			//arrumando por pura vontade
+			if tiro >= 3 && tiro <= 5 {
+				pytura += 1
+			}
+			if tiro >= 6 && tiro <= 8 {
+				pytura += 2
+			}
+			//checa se todos os pythons tão vivos
+			if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
+
+				ebitenutil.DebugPrint(screen, "vc ganhou e usou so "+contatiro+" tiros ")
+				ebitenutil.DebugPrint(screen, "\n\n\n Use a tecla enter para recomecar ou s para sair!")
+				if ebiten.IsKeyPressed(ebiten.KeyS) == true {
+					os.Exit(0)
+				}
+				if ebiten.IsKeyPressed(ebiten.KeyEnter) == true {
+					reiniciar()
+				}
 			}
 		}
 	}
@@ -177,27 +206,34 @@ func atirar() {
 	varia = true
 	tiro++
 }
-func reiniciar()  {
-//função de reiniciar
-	Gosavior     = 0
-	gosaviorold  = 0
-	pydestroyer  = 0
-	pyimage1     = 0
-	pyimage2     = 54
-	pyimage3     = 107
-	pyimage4     = 160
-	pyimage5     = 213
-	varia        = false
-	altura       = 185
-	py1          = true
-	py2          = true
-	py3          = true
-	py4          = true
-	py5          = true
-	tiro         = 0
-	contatiro    = "0"
-	pytura       = 0
+func reiniciar() {
+	//função de reiniciar
+	Gosavior = 0
+	gosaviorold = 0
+	pydestroyer = 0
+	pyimage1 = 0
+	pyimage2 = 54
+	pyimage3 = 107
+	pyimage4 = 160
+	pyimage5 = 213
+	varia = false
+	altura = 185
+	py1 = true
+	py2 = true
+	py3 = true
+	py4 = true
+	py5 = true
+	tiro = 0
+	contatiro = "0"
+	pytura = 0
+	if nivel == 2 {
+		pytura = 10
+	} else {
+		nivel = 1
+	}
+
 }
+
 //andar para direita
 func walkRight() {
 	if Gosavior < 260 {
