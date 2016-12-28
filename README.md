@@ -1,5 +1,5 @@
 # goinvader
-um jogo simples e zoado e que pode gerar tretas :3
+um jogo simples para testar e aprender a usar a biblioteca github.com/hajimehoshi/ebiten
 
 <br />
 ```
