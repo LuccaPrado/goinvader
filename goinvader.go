@@ -4,7 +4,7 @@ package main
 import (
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/ebitenutil"
-
+	"strconv"
 	"image"
 	"image/color"
 	_ "image/png"
@@ -29,6 +29,7 @@ var (
 	py4         bool    = true
 	py5         bool    = true
 	tiro        int     = 0
+	contatiro   string 		= "0" //só p seguir padrão
 	pytura      float64 = 0
 )
 
@@ -126,11 +127,12 @@ func jogo(screen *ebiten.Image) error {
 		altura = 185
 		varia = false
 	}
-
+	//começo de pontuação?
+	contatiro = strconv.Itoa(tiro)
 	//checa se vc ja atirou mais que podia, se sim, vc perdeu
 	if tiro > 20 {
 		pytura = 185
-		ebitenutil.DebugPrint(screen, "vc perdeu")
+		ebitenutil.DebugPrint(screen, "vc perdeu e usou so " + contatiro + " tiros ")
 	} else {
 		//arrumando por pura vontade
 		if tiro >= 3 && tiro <= 5 {
@@ -150,7 +152,8 @@ func jogo(screen *ebiten.Image) error {
 		}
 		//checa se todos os pythons tão vivos
 		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
-			ebitenutil.DebugPrint(screen, "vc ganhou")
+
+			ebitenutil.DebugPrint(screen, "vc ganhou e usou so " + contatiro + " tiros ")
 		}
 	}
 	return nil
