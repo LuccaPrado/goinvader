@@ -126,26 +126,28 @@ func jogo(screen *ebiten.Image) error {
 		altura = 185
 		varia = false
 	}
-	if tiro >= 3 && tiro <= 5 {
-		pytura = 10
-	}
-	if tiro >= 6 && tiro <= 8 {
-		pytura = 15
-	}
-	if tiro >= 9 && tiro <= 13 {
-		pytura = 30
-	}
-	if tiro >= 13 && tiro <= 15 {
-		pytura = 45
-	}
-	if tiro >= 16 && tiro <= 20 {
-		pytura = 55
-	}
+
 	//checa se vc ja atirou mais que podia, se sim, vc perdeu
 	if tiro > 20 {
 		pytura = 185
 		ebitenutil.DebugPrint(screen, "vc perdeu")
 	} else {
+		//arrumando por pura vontade
+		if tiro >= 3 && tiro <= 5 {
+			pytura = 10
+		}
+		if tiro >= 6 && tiro <= 8 {
+			pytura = 15
+		}
+		if tiro >= 9 && tiro <= 13 {
+			pytura = 30
+		}
+		if tiro >= 13 && tiro <= 15 {
+			pytura = 45
+		}
+		if tiro >= 16 && tiro <= 20 {
+			pytura = 55
+		}
 		//checa se todos os pythons tão vivos
 		if py1 == false && py2 == false && py3 == false && py4 == false && py5 == false {
 			ebitenutil.DebugPrint(screen, "vc ganhou")
