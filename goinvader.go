@@ -150,11 +150,17 @@ func atirar()  {
 }
 //andar para direita
 func walkRight() {
-	Gosavior += 3
+	if Gosavior < 260{
+		Gosavior += 3
+	}
+
 }
 //andar para esquerda
 func walkLeft() {
+	if Gosavior > 0 {
 	Gosavior -= 3
+	}
+
 }
 //Inicia o jogo
 func main() {
